@@ -49,6 +49,8 @@ router.get("/list", async (req, res) => {
             element.daTime = helpers.time2local(element.daTime);
             // Fikser titel...
             element.vcFriendlyName = (!element.vcFriendlyName) ? element.vcSubject : element.vcFriendlyName;
+
+            // Hacky måde at begrænse udtrækket på
             if(list.length < 20) {
                 // Tilføjer key/values til ny liste
                 list.push(element);
