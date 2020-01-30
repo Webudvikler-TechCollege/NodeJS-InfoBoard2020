@@ -1,0 +1,15 @@
+<!-- views/pages/sange.ejs -->
+
+<%- include ('../partials/header') %>    
+
+    <h1><%= title %></h1>
+    <p><%= content %></p>
+
+    <ul class="list" id="songlist">
+    <% list.forEach(function(item) { %>
+        <li><%= item.daTime %> - <%= item.vcFriendlyName %> - <%= item.vcClassroom %> - <%= item.vcClass %>
+        </li>
+    <% }); %> 
+    </ul>
+
+<%- include ('../partials/footer') %>
