@@ -29,26 +29,23 @@ router.get("/list", async (req, res) => {
         // Dato fix - henter i dags begyndelse (00:00:00)
         const curtime = new Date();
         const curdaystart = (new Date(curtime.getFullYear(), curtime.getMonth(), 
-                                        curtime.getDate(), 0, 0, 0).getTime()/1000);
+                                        curtime.getDate()+1, 8, 50, 0).getTime()/1000);
 
         // Bruger array.filter til at afgrænse resultatet 
         // til kun at medtage aktiviteter indenfor den kommende uge
         //const rawlist = apiResponse.activity.filter(key => key.daTime > curtime && key.daTime < (curtime + 604800));
-        const rawlist = apiResponse.activity.filter(key => key.daTime > curdaystart);
+        let first = apiResponse.activity.find(Boolean);
+        const rawlist = apiResponse.activity.filter(arr => arr.time == first.time);
 
         // Deklarerer nyt array til liste
         const list = [];
 
         // Lopper arrayet for at behandle data 
-        // - konvertere timestamp til læsevenlig tid. 
-        //   Eks: 1580338800 => 08:15
-        // - fikse titel efter om feltet friendly name
-        //   er tomt eller ej
+        // fikse titel efter om feltet friendly name
+        // er tomt eller ej
         rawlist.forEach(element => {
-            // Fikser tid...
-            element.daTime = helpers.time2local(element.daTime);
             // Fikser titel...
-            element.vcFriendlyName = (!element.vcFriendlyName) ? element.vcSubject : element.vcFriendlyName;
+            element.friendly_name = (!element.friendly_name) ? element.name : element.friendly_name;
 
             // Hacky måde at begrænse udtrækket på
             if(list.length < 20) {

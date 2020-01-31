@@ -11,7 +11,7 @@ module.exports = {
     // Funktionen anvender javascripts Date API.
     // Læs mere: https://www.w3schools.com/jsref/jsref_obj_date.asp
     // Eks: 08:15
-    time2local: (stamp) => {
+    stamp2time: (stamp) => {
         let date = new Date(stamp * 1000); //Konverterer unix timestamp til js timestamp
         let hours = date.getHours(); //Henter timer
         let minutes = date.getMinutes(); //Henter minutter
