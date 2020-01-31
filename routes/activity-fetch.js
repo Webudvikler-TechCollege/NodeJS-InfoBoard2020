@@ -35,7 +35,7 @@ router.get("/list", async (req, res) => {
         // til kun at medtage aktiviteter indenfor den kommende uge
         //const rawlist = apiResponse.activity.filter(key => key.daTime > curtime && key.daTime < (curtime + 604800));
         let first = apiResponse.activity.find(Boolean);
-        const rawlist = apiResponse.activity.filter(arr => arr.time == first.time);
+        const rawlist = apiResponse.activity.filter(arr => arr.stamp == first.stamp);
 
         // Deklarerer nyt array til liste
         const list = [];
@@ -47,11 +47,8 @@ router.get("/list", async (req, res) => {
             // Fikser titel...
             element.friendly_name = (!element.friendly_name) ? element.name : element.friendly_name;
 
-            // Hacky måde at begrænse udtrækket på
-            if(list.length < 20) {
-                // Tilføjer key/values til ny liste
-                list.push(element);
-            }
+            // Tilføjer key/values til ny liste
+            list.push(element);
         });
 
         // Hvis man laver explicit return i sin express app
