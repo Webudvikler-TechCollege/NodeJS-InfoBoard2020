@@ -76,7 +76,6 @@ router.get("/list", async (req, res) => {
             temp_list = await apiResponse.activity.filter(item => item.stamp <= (firstkey.stamp+3899));
         }
 
-
         // Deklarerer array til endelig liste
         const activity_list = [];
 
