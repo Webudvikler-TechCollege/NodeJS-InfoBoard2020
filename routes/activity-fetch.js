@@ -26,39 +26,78 @@ router.get("/list", async (req, res) => {
         // Kalder svar som json format
         const apiResponse = await requestToApi.json();
 
-        // Dato fix - henter i dags begyndelse (00:00:00)
-        const curtime = new Date();
-        const curdaystart = (new Date(curtime.getFullYear(), curtime.getMonth(), 
-                                        curtime.getDate()+1, 8, 50, 0).getTime()/1000);
+        // Dato hell
 
-        // Bruger array.filter til at afgrænse resultatet 
-        // til kun at medtage aktiviteter indenfor den kommende uge
-        //const rawlist = apiResponse.activity.filter(key => key.daTime > curtime && key.daTime < (curtime + 604800));
-        let first = apiResponse.activity.find(Boolean);
-        const rawlist = apiResponse.activity.filter(arr => arr.stamp == first.stamp);
+        // Deklarerer array med skolens skematider
+        // Tiderne her er angivet i sekunder fra midnat og 
+        // fungerer dermed på alle datoer
+        const schedule_hours = [
+            { start: 29700, stop: 33599 }, //8:15 - 9:20
+            { start: 33600, stop: 37799 }, //9:20 - 10:30 (9:15)
+            { start: 37800, stop: 41399 }, //10:30 - 11:30
+            { start: 41400, stop: 46799 }, //12:00 - 13:00
+            { start: 46800, stop: 50399 }, //13:00 - 14:00
+            { start: 50400, stop: 54900 }, //14:00 - 15:15
+        ]
 
-        // Deklarerer nyt array til liste
-        const list = [];
+        // Henter dags dato og tid
+        const date = new Date(); 
+        // Konverterer dags datotid til timestamp
+        const curtime = ~~(date.getTime()/1000);
+        // Sætter dags datotid til dagens begyndelse (Kl. 00:00:00)
+        const curdate = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0).getTime()/1000);
+
+        // Deklarerer array til aktuel datos skematider
+        const curdate_hours = [];
+
+        // Looper skematider
+        schedule_hours.forEach(obj => {
+            // Sætter skematider på aktuel dato
+            curdate_hours.push({
+                start: curdate + obj.start, 
+                stop: curdate + obj.stop
+            });
+        });
+
+        // Tjekker om nutid findes i aktuel datos skematider
+        const curhour = curdate_hours.filter(obj => obj.start <= curtime && obj.stop >= curtime);
+
+        // Deklarerer temporary array til aktuelle aktiviteter
+        let temp_list = [];
+
+        // Hvis nutid er i skematider...
+        if(curhour.length) {
+            // Filtrer fetch data efter hvilke skematider nutid befinder sig i
+            temp_list = await apiResponse.activity.filter(item => item.stamp >= curhour[0].start && item.stamp <= curhour[0].stop);
+        } else {
+            // Træk første index ud af fetch data
+            const firstkey = apiResponse.activity.find(Boolean);
+            // Hent data der passer i næstkommende skoledags første skematid (8:15 - 9:20)
+            temp_list = await apiResponse.activity.filter(item => item.stamp <= (firstkey.stamp+3899));
+        }
+
+
+        // Deklarerer array til endelig liste
+        const activity_list = [];
 
         // Lopper arrayet for at behandle data 
         // fikse titel efter om feltet friendly name
         // er tomt eller ej
-        rawlist.forEach(element => {
+        temp_list.forEach(element => {
+            //console.log(element.stamp);
+
             // Fikser titel...
             element.friendly_name = (!element.friendly_name) ? element.name : element.friendly_name;
 
             // Tilføjer key/values til ny liste
-            list.push(element);
+            activity_list.push(element);
         });
 
-        // Hvis man laver explicit return i sin express app
-        // er man 100% sikker på at der ikke køres kode efter.
-        // Problemet viser sig hvis der er mange forskellige 
-        // svar muligheder for en enkelt route (baseret på bruger input eller whatever)
+        // Renderer titel, content og aktivitets liste til ejs view
         return res.render('pages/list', {
             title: "Aktiviteter",
             content: "",
-            list
+            activity_list
         })
 
     } catch (error) {
