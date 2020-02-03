@@ -18,5 +18,13 @@ module.exports = {
         hours = (hours < 10) ? String(hours).padStart(2, "0") : hours; //Sætter 0 foran hvis < 9
         minutes = (minutes < 10) ? String(minutes).padStart(2, "0") : minutes; //Sætter 0 foran hvis < 9
         return hours + ':' + minutes; //Returnerer format
+    },
+
+    get_education: (classname) => {
+        let education = (classname.search("we") > 0) ? "WU" :
+                            (classname.search("dm") > 0) ? "DM" : 
+                                (classname.search("mg") > 0) ? "MG" :
+                                    (classname.search("gr") > 0) ? "GT" : ""
+        return education;
     }
 }

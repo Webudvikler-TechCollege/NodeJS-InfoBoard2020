@@ -33,7 +33,7 @@ router.get("/list", async (req, res) => {
         // fungerer dermed på alle datoer
         const schedule_hours = [
             { start: 29700, stop: 33599 }, //8:15 - 9:20
-            { start: 33600, stop: 37799 }, //9:20 - 10:30 (9:15)
+            { start: 33600, stop: 37799 }, //9:20 - 10:30
             { start: 37800, stop: 41399 }, //10:30 - 11:30
             { start: 41400, stop: 46799 }, //12:00 - 13:00
             { start: 46800, stop: 50399 }, //13:00 - 14:00
@@ -43,9 +43,12 @@ router.get("/list", async (req, res) => {
         // Henter dags dato og tid
         const date = new Date(); 
         // Konverterer dags datotid til timestamp
-        const curtime = ~~(date.getTime()/1000);
+        //const curtime = ~~(date.getTime()/1000);
+        const curtime = (new Date(date.getFullYear(), date.getMonth(), date.getDate()+1, 11, 30, 0).getTime()/1000);
         // Sætter dags datotid til dagens begyndelse (Kl. 00:00:00)
-        const curdate = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0).getTime()/1000);
+        const curdate = (new Date(date.getFullYear(), date.getMonth(), date.getDate()+1, 0, 0, 0).getTime()/1000);
+        //helpers.time2local(element.daTime);
+
 
         // Deklarerer array til aktuel datos skematider
         const curdate_hours = [];
@@ -83,9 +86,9 @@ router.get("/list", async (req, res) => {
         // fikse titel efter om feltet friendly name
         // er tomt eller ej
         temp_list.forEach(element => {
-            //console.log(element.stamp);
+            console.log(helpers.get_education(element.class));
 
-            // Fikser titel...
+            // Fikser titel med ternary value
             element.friendly_name = (!element.friendly_name) ? element.name : element.friendly_name;
 
             // Tilføjer key/values til ny liste
