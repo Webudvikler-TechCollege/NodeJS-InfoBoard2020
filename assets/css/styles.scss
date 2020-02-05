@@ -1,5 +1,10 @@
-a, p, li, h1, h2 {
-    font-family: Verdana;
+$color-wu: #993333;
+$color-dm: #993366;
+$color-mg: #999933;
+$color-gt: #336699;
+
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 a {
@@ -50,7 +55,46 @@ header {
     }
 }
 
-.container {
+#activity_list {
+    width: 100%;
     display: inline-grid;
-    grid-template-columns: 200px auto;
+    grid-gap: 10px;
+    grid-template-columns: 200px 200px 200px 200px;
+    .activity_item {
+        color: #fff;
+        height: 150px;
+        border: solid 1px #000;        
+        padding: 10px;
+        .headline {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    }
+    div {
+        background-size: cover;
+        opacity: 0.9;
+    }
+    .wu {
+        background-color: $color-wu;
+        background-image: url('/assets/images/wu.jpg');
+    }
+    .dm {
+        background-color: $color-dm;
+        background-image: url('/assets/images/dm.jpg');
+    }
+    .gt {
+        background-color: $color-gt;
+        background-image: url('/assets/images/gt.jpg');
+    }
+    .mg {
+        background-color: $color-mg;
+        background-image: url('/assets/images/mg.jpg');
+    }
+    .std {
+        background-color: $color-mg;
+        background-image: url('/assets/images/default.jpg');
+    }
   }
+
+
+

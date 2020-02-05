@@ -1,5 +1,5 @@
-a, p, li, h1, h2 {
-  font-family: Verdana;
+* {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 a {
@@ -55,10 +55,54 @@ header ul li a:hover {
   color: #00f;
 }
 
-.container {
+#activity_list {
+  width: 100%;
   display: -ms-inline-grid;
   display: inline-grid;
-  -ms-grid-columns: 200px auto;
-      grid-template-columns: 200px auto;
+  grid-gap: 10px;
+  -ms-grid-columns: 200px 200px 200px 200px;
+      grid-template-columns: 200px 200px 200px 200px;
+}
+
+#activity_list .activity_item {
+  color: #fff;
+  height: 150px;
+  border: solid 1px #000;
+  padding: 10px;
+}
+
+#activity_list .activity_item .headline {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#activity_list div {
+  background-size: cover;
+  opacity: 0.9;
+}
+
+#activity_list .wu {
+  background-color: #993333;
+  background-image: url("/assets/images/wu.jpg");
+}
+
+#activity_list .dm {
+  background-color: #993366;
+  background-image: url("/assets/images/dm.jpg");
+}
+
+#activity_list .gt {
+  background-color: #336699;
+  background-image: url("/assets/images/gt.jpg");
+}
+
+#activity_list .mg {
+  background-color: #999933;
+  background-image: url("/assets/images/mg.jpg");
+}
+
+#activity_list .std {
+  background-color: #999933;
+  background-image: url("/assets/images/default.jpg");
 }
 /*# sourceMappingURL=styles.css.map */

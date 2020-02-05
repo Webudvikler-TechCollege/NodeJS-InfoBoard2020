@@ -5,10 +5,21 @@
     <h1><%= title %></h1>
     <p><%= content %></p>
 
-    <ul class="list" id="songlist">
+    <section id="activity_list">
     <% activity_list.forEach(function(item) { %>
-        <li><%= item.time %> - <%= item.friendly_name %> - <%= item.classroom %> - <%= item.class %></li>
+        <div class="activity_item <%= item.info.inits %>">
+            <div class="headline">
+                <%= item.time %><br />
+                <%= item.friendly_name %>
+            </div>
+            <div class="info">
+                <%= item.info.name %><br>
+                Hold: <%= item.class %><br />
+                Lokale: <%= item.classroom %><br />
+                Dato: <%= item.date %>
+            </div>
+        </div>
     <% }); %> 
-    </ul>
+    </section>
 
 <%- include ('../partials/footer') %>

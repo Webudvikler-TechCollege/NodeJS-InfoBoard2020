@@ -13,6 +13,65 @@ module.exports = {
                             (classname.search("dm") > 0) ? "DM" : 
                                 (classname.search("mg") > 0) ? "MG" :
                                     (classname.search("gr") > 0) ? "GT" : ""
-        return education;
+                   
+        switch(education) {
+            default:
+                return {
+                    name: "ANdet",
+                    inits: "std",
+                    classname: classname
+                }
+                break;
+            case "WU":
+                //console.log(education);
+                //console.log(classname);
+                return {
+                    name: "Webudvikler",
+                    inits: "wu",
+                    classname: classname
+                }
+                break;
+            case "DM":
+                return {
+                    name: "Digital Media",
+                    inits: "dm",
+                    classname: classname
+                }
+                break;
+            case "MG":
+                return {
+                    name: "Mediegrafiker",
+                    inits: "mg",
+                    classname: classname
+                }
+                break;
+            case "GT":
+                return {
+                    name: "Grafisk Tekniker",
+                    inits: "gt",
+                    classname: classname
+                }
+                break;
+        }
+    },
+
+    get_room_array: () => {
+        return [
+            'N112',
+            'N112b',
+            'N120',
+            'N121',
+            'N122',
+            'N214',
+            'N215',
+            'N215a',
+            'N219',
+            'N221',
+            'N223',
+            'N225',
+            'N226',
+            'N228',
+            'N230'    
+        ]
     }
 }
